@@ -96,7 +96,7 @@
 			        <goal>tag</goal>
 			      </goals>
 			      <configuration>
-			        <image>${project.artifactId}:${project.version}</image>
+			        <image>${project.artifactId}:latest</image>
 			        <newName>${registry.addr}/${project.artifactId}:${project.version}</newName>
 			      </configuration>
 			    </execution>
@@ -107,7 +107,7 @@
 			        <goal>push</goal>
 			      </goals>
 			      <configuration>
-			        <imageName>${registry.addr}/${project.artifactId}:${project.version}</imageName>
+			        <imageName>${registry.addr}/${project.artifactId}:latest</imageName>
 			      </configuration>
 			    </execution>        
             </executions>
