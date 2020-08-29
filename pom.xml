@@ -12,6 +12,7 @@
 	</parent>
 	<properties>
 		<spring-cloud.version>Finchley.M7</spring-cloud.version>
+		<registry.addr>kevin1:5000</registry.addr>
 	</properties>
 	<!-- 管理依赖 -->
 	<dependencyManagement>
@@ -69,6 +70,8 @@
 					<dockerDirectory>src/main/docker</dockerDirectory>
 					<cmd>["java", "-version"]</cmd>
 					<entryPoint>["java", "-jar", "${project.build.finalName}.jar"]</entryPoint>
+					<!-- optionally overwrite tags every time image is built with docker:build -->
+       				<forceTags>true</forceTags>
 					<resources>
 						<resource>
 							<targetPath>/</targetPath>
@@ -87,26 +90,26 @@
                     </goals>
                 </execution>
                 <execution>
-                    <id>tag-image</id>
-                    <phase>package</phase>
-                    <goals>
-                        <goal>tag</goal>
-                    </goals>
-                    <configuration>
-                        <image>${project.artifactId}:latest</image>
-                        <newName>docker.io/kevin/${project.artifactId}:${project.version}</newName>
-                    </configuration>
-                </execution>
-                <execution>
-                    <id>push-image</id>
-                    <phase>deploy</phase>
-                    <goals>
-                        <goal>push</goal>
-                    </goals>
-                    <configuration>
-                        <imageName>docker.io/kevin/${project.artifactId}:${project.version}</imageName>
-                    </configuration>
-                </execution>
+			      <id>tag-image</id>
+			      <phase>package</phase>
+			      <goals>
+			        <goal>tag</goal>
+			      </goals>
+			      <configuration>
+			        <image>${project.artifactId}:${project.version}</image>
+			        <newName>${registry.addr}/${project.artifactId}:${project.version}</newName>
+			      </configuration>
+			    </execution>
+			    <execution>
+			      <id>push-image</id>
+			      <phase>deploy</phase>
+			      <goals>
+			        <goal>push</goal>
+			      </goals>
+			      <configuration>
+			        <imageName>${registry.addr}/${project.artifactId}:${project.version}</imageName>
+			      </configuration>
+			    </execution>        
             </executions>
 			</plugin>
 
