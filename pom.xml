@@ -97,7 +97,7 @@
 			      </goals>
 			      <configuration>
 			        <image>${project.artifactId}:latest</image>
-			        <newName>${registry.addr}/${project.artifactId}:${project.version}</newName>
+			        <newName>${registry.addr}/${project.artifactId}:latest</newName>
 			      </configuration>
 			    </execution>
 			    <execution>
