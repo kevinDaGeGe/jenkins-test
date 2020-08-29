@@ -48,7 +48,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.1</version>
 				<configuration>
 					<source>1.14</source>
 					<target>1.14</target>
@@ -63,11 +62,13 @@
 				<!-- ${docker.image.prefix} 是镜像的前缀 ${project.artifactId} 是镜像名字 ${project.version} 
 					版本号，此处也用来当做镜像的版本号 -->
 				<configuration>
-					<imageName>${groupId}/${artifactId}</imageName>
+					<imageName>${project.groupId}/${project.artifactId}</imageName>
 					<imageTags>
 						<imageTag>latest</imageTag>
 					</imageTags>
 					<dockerDirectory>src/main/docker</dockerDirectory>
+					<cmd>["java", "-version"]</cmd>
+					<entryPoint>["java", "-jar", "${project.build.finalName}.jar"]</entryPoint>
 					<resources>
 						<resource>
 							<targetPath>/</targetPath>
@@ -75,7 +76,38 @@
 							<include>${project.build.finalName}.jar</include>
 						</resource>
 					</resources>
+					
 				</configuration>
+				<executions>
+                <execution>
+                    <id>build-image</id>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>build</goal>
+                    </goals>
+                </execution>
+                <execution>
+                    <id>tag-image</id>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>tag</goal>
+                    </goals>
+                    <configuration>
+                        <image>${project.artifactId}:latest</image>
+                        <newName>docker.io/kevin/${project.artifactId}:${project.version}</newName>
+                    </configuration>
+                </execution>
+                <execution>
+                    <id>push-image</id>
+                    <phase>deploy</phase>
+                    <goals>
+                        <goal>push</goal>
+                    </goals>
+                    <configuration>
+                        <imageName>docker.io/kevin/${project.artifactId}:${project.version}</imageName>
+                    </configuration>
+                </execution>
+            </executions>
 			</plugin>
 
 		</plugins>
