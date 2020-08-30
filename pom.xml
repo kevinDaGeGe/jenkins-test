@@ -13,6 +13,8 @@
 	<properties>
 		<spring-cloud.version>Finchley.M7</spring-cloud.version>
 		<registry.addr>kevin1:5000</registry.addr>
+		<docker.repostory>kevin1:5000</docker.repostory>
+        <docker.registry.name>viiso</docker.registry.name>
 	</properties>
 	<!-- 管理依赖 -->
 	<dependencyManagement>
@@ -63,8 +65,14 @@
 				<!-- ${docker.image.prefix} 是镜像的前缀 ${project.artifactId} 是镜像名字 ${project.version} 
 					版本号，此处也用来当做镜像的版本号 -->
 				<configuration>
-					<imageName>${project.artifactId}</imageName>
+					<!-- 私有仓库配置，需要settings.xml文件配合serverId对应的服务地址 -->
+                    <serverId>docker-kevin1</serverId>
+                    <registryUrl>${docker.repostory}</registryUrl>
+                    <!--install阶段也上传，否则只有deploy阶段上传-->
+                    <pushImage>true</pushImage>
+					<imageName>${docker.repostory}/${docker.registry.name}/${project.artifactId}:${project.version}</imageName>
 					<imageTags>
+						<imageTag>${git.commit.id.abbrev}</imageTag>
 						<imageTag>latest</imageTag>
 					</imageTags>
 <!-- 					<dockerDirectory>src/main/docker</dockerDirectory> -->
@@ -82,7 +90,7 @@
 					</resources>
 					
 				</configuration>
-				<!-- <executions>
+				<executions>
                 <execution>
                     <id>build-image</id>
                     <phase>package</phase>
@@ -91,27 +99,27 @@
                     </goals>
                 </execution>
                 <execution>
-			      <id>tag-image</id>
-			      <phase>package</phase>
-			      <goals>
-			        <goal>tag</goal>
-			      </goals>
-			      <configuration>
-			        <image>${project.artifactId}:latest</image>
-			        <newName>${registry.addr}/${project.artifactId}:latest</newName>
-			      </configuration>
-			    </execution>
-			    <execution>
-			      <id>push-image</id>
-			      <phase>deploy</phase>
-			      <goals>
-			        <goal>push</goal>
-			      </goals>
-			      <configuration>
-			        <imageName>${registry.addr}/${project.artifactId}:latest</imageName>
-			      </configuration>
-			    </execution>        
-            </executions> -->
+                    <id>tag-image</id>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>tag</goal>
+                    </goals>
+                    <configuration>
+                        <image>${docker.registry.name}/${project.artifactId}:${project.version}</image>
+                        <newName>${docker.repostory}/${docker.registry.name}/${project.artifactId}:${project.version}</newName>
+                    </configuration>
+                </execution>
+                <execution>
+                    <id>push-image</id>
+                    <phase>deploy</phase>
+                    <goals>
+                        <goal>push</goal>
+                    </goals>
+                    <configuration>
+                        <imageName>${docker.repostory}/${docker.registry.name}/${project.artifactId}:${project.version}</imageName>
+                    </configuration>
+                </execution>            
+            </executions>
 			</plugin>
 
 		</plugins>
