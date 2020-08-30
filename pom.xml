@@ -14,7 +14,7 @@
 		<spring-cloud.version>Finchley.M7</spring-cloud.version>
 		<registry.addr>kevin1:5000</registry.addr>
 		<docker.repostory>kevin1:5000</docker.repostory>
-        <docker.registry.name>viiso</docker.registry.name>
+        <docker.registry.name>yeresday</docker.registry.name>
 	</properties>
 	<!-- 管理依赖 -->
 	<dependencyManagement>
@@ -73,7 +73,6 @@
 					<imageName>${docker.repostory}/${docker.registry.name}/${project.artifactId}:${project.version}</imageName>
 					<imageTags>
 						<imageTag>${git.commit.id.abbrev}</imageTag>
-						<imageTag>latest</imageTag>
 					</imageTags>
 <!-- 					<dockerDirectory>src/main/docker</dockerDirectory> -->
 					<baseImage>java</baseImage>
