@@ -67,7 +67,8 @@
 					<imageTags>
 						<imageTag>latest</imageTag>
 					</imageTags>
-					<dockerDirectory>src/main/docker</dockerDirectory>
+<!-- 					<dockerDirectory>src/main/docker</dockerDirectory> -->
+					<baseImage>java</baseImage>
 					<cmd>["java", "-version"]</cmd>
 					<entryPoint>["java", "-jar", "${project.build.finalName}.jar"]</entryPoint>
 					<!-- optionally overwrite tags every time image is built with docker:build -->
@@ -81,7 +82,7 @@
 					</resources>
 					
 				</configuration>
-				<executions>
+				<!-- <executions>
                 <execution>
                     <id>build-image</id>
                     <phase>package</phase>
@@ -110,7 +111,7 @@
 			        <imageName>${registry.addr}/${project.artifactId}:latest</imageName>
 			      </configuration>
 			    </execution>        
-            </executions>
+            </executions> -->
 			</plugin>
 
 		</plugins>
