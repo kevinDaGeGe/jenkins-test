@@ -70,7 +70,7 @@
                     <registryUrl>${docker.repostory}</registryUrl>
                     <!--install阶段也上传，否则只有deploy阶段上传-->
                     <pushImage>true</pushImage>
-					<imageName>${docker.repostory}/${docker.registry.name}/${project.artifactId}:${project.version}</imageName>
+					<imageName>${docker.repostory}/${project.artifactId}:${project.version}</imageName>
 					<imageTags>
 						<imageTag>${project.version}</imageTag>
 					</imageTags>
