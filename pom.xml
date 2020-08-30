@@ -72,7 +72,7 @@
                     <pushImage>true</pushImage>
 					<imageName>${docker.repostory}/${docker.registry.name}/${project.artifactId}:${project.version}</imageName>
 					<imageTags>
-						<imageTag>${git.commit.id.abbrev}</imageTag>
+						<imageTag>latest</imageTag>
 					</imageTags>
 <!-- 					<dockerDirectory>src/main/docker</dockerDirectory> -->
 					<baseImage>java</baseImage>
